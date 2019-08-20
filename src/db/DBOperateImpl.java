@@ -1,7 +1,7 @@
 package db;
 
-import java.sql.CallableStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DBOperateImpl implements DBOperate {
     private static DBUtil dbUtil;
@@ -14,10 +14,9 @@ public class DBOperateImpl implements DBOperate {
         }
     }
 
-
     @Override
-    public <T> CallableStatement callProcedure(String procName, T... parameters) {
-        return null;
+    public void commit() throws SQLException {
+        dbUtil.commit();
     }
 
     @Override
@@ -27,7 +26,7 @@ public class DBOperateImpl implements DBOperate {
 
     @Override
     public int insert(String sql) {
-        return 0;
+        return dbUtil.sendSQL(sql);
     }
 
     @Override

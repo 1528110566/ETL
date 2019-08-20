@@ -1,7 +1,7 @@
 package db;
 
-import java.sql.CallableStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * @author TZ
@@ -9,12 +9,9 @@ import java.sql.ResultSet;
  */
 public interface DBOperate {
     /**
-     * 调用存储过程
-     *
-     * @param procName   存储过程名
-     * @param parameters 调用存储过程所需参数
+     * 提交
      */
-    <T> CallableStatement callProcedure(String procName, T... parameters);
+    void commit() throws SQLException;
 
     /**
      * 选择

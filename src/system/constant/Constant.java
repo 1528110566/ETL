@@ -6,7 +6,10 @@ public enum Constant {
     SQL_SEND_ERROR(3, "SQL发送异常"),
     SQL_SEND_SUCCESS(4, "SQL发送成功"),
     SQL_RUN_ERROR(5, "SQL执行异常"),
-    SQL_RUN_SUCCESS(6, "SQL执行成功");
+    SQL_RUN_SUCCESS(6, "SQL执行成功"),
+    PROC_CALL_ERROR(7, "存储过程调用异常"),
+    PROC_CALL_SUCCESS(8, "存储过程调用成功");
+
 
     private Integer index;
     private String message;

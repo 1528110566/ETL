@@ -1,13 +1,14 @@
 package db;
 
-import exception.connection.ConnectException;
+import exception.db.ConnectException;
 import oracle.jdbc.driver.OracleDriver;
 import system.constant.Constant;
 
 import java.sql.*;
 import java.util.Properties;
 
-import static system.constant.Constant.*;
+import static system.constant.Constant.CONNECTION_ERROR;
+import static system.constant.Constant.CONNECTION_SUCCESS;
 
 /**
  * @author TZ
@@ -17,7 +18,7 @@ public class DBUtil {
     private static Connection connection;
     private static DBUtil dbUtil;
 
-    public static DBUtil getInstance() throws Exception {
+    public static DBUtil getInstance() throws ConnectException {
         if (dbUtil == null) {
             dbUtil = new DBUtil();
             if (connect() == CONNECTION_ERROR) {
@@ -49,21 +50,19 @@ public class DBUtil {
         return CONNECTION_SUCCESS;
     }
 
-    private Constant sendSQL(String sql) {
+    public int sendSQL(String sql) {
         try {
             if (sql.trim().endsWith(";")) {
                 sql = sql.trim().substring(0, sql.length() - 1);
             }
+            //TODO
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(sql);
-            if (statement.execute()) {
-                return SQL_SEND_SUCCESS;
-            } else {
-                return SQL_RUN_ERROR;
-            }
+            return statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return SQL_SEND_ERROR;
         }
+        return 0;
     }
 
     public ResultSet getResult(String sql) {
@@ -74,5 +73,13 @@ public class DBUtil {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    void commit() throws SQLException {
+        connection.commit();
     }
 }

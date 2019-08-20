@@ -3,7 +3,9 @@ package system.function;
 import exception.function.FunctionArgumentLengthException;
 import exception.function.FunctionArgumentTypeException;
 import exception.function.FunctionException;
+import oracle.sql.DATE;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -56,8 +58,8 @@ public class Function {
     /**
      * 获得系统时间
      */
-    public static Date sysdate() {
-        return new Date();
+    public static DATE sysdate() throws SQLException {
+        return new DATE(new Date());
     }
 
     /**
