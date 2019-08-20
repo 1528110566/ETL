@@ -1,8 +1,12 @@
 package tool;
 
+import db.DBOperate;
+import db.DBOperateImpl;
 import exception.tool.ToolArgumentTypeException;
 import exception.tool.ToolException;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
 /**
@@ -10,6 +14,8 @@ import java.util.Objects;
  * @date 2019/8/14 10:13
  */
 public class Tools {
+    private static DBOperate dbOperate = new DBOperateImpl();
+
     /**
      * 传入的两个参数是否相等
      * Oracle在decode函数中会隐式地将都是数字字符的字符串转换成int型，
@@ -53,5 +59,16 @@ public class Tools {
             }
         }
         return true;
+    }
+
+    public static int getSequenceNextValue(String sequenceName) throws SQLException {
+        String sql = "SELECT " + sequenceName + ".NEXTVAL FROM DUAL";
+        System.out.println(sql);
+        ResultSet resultSet = dbOperate.select(sql);
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        } else {
+            return 0;
+        }
     }
 }

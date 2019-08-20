@@ -20,7 +20,6 @@ public class DBUtil {
     public static DBUtil getInstance() throws Exception {
         if (dbUtil == null) {
             dbUtil = new DBUtil();
-            connect();
             if (connect() == CONNECTION_ERROR) {
                 throw new ConnectException(CONNECTION_ERROR.getMessage());
             }
@@ -46,6 +45,7 @@ public class DBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("数据库连接成功");
         return CONNECTION_SUCCESS;
     }
 
@@ -66,7 +66,7 @@ public class DBUtil {
         }
     }
 
-    private ResultSet getResult(String sql) {
+    public ResultSet getResult(String sql) {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             return statement.executeQuery();

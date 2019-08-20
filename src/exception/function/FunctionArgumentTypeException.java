@@ -4,7 +4,7 @@ package exception.function;
  * @author TZ
  * @date 2019/8/14 14:16
  */
-public class FunctionArgumentTypeException extends FunctionException {
+public class FunctionArgumentTypeException extends FunctionArgumentException {
     public FunctionArgumentTypeException() {
         super();
     }

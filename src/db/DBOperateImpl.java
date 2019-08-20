@@ -1,5 +1,8 @@
 package db;
 
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+
 public class DBOperateImpl implements DBOperate {
     private static DBUtil dbUtil;
 
@@ -9,6 +12,17 @@ public class DBOperateImpl implements DBOperate {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Override
+    public <T> CallableStatement callProcedure(String procName, T... parameters) {
+        return null;
+    }
+
+    @Override
+    public ResultSet select(String sql) {
+        return dbUtil.getResult(sql);
     }
 
     @Override
