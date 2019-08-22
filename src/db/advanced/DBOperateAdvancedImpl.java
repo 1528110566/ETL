@@ -44,15 +44,18 @@ public class DBOperateAdvancedImpl extends DBOperateImpl implements DBOperateAdv
             }
         }
         builder.append(") }");
+        // TODO
         // 调试用
         System.out.println(builder.toString());
         // 调用存储过程
         CallableStatement statement = dbUtil.getConnection().prepareCall(builder.toString());
         // 设置存储过程参数
         for (int i = 0; i < parameters.length; i++) {
+            // TODO
+            System.out.println((i + 1) + "\t" + parameters[i].getValue());
             // 如果是in类型的参数
             if (parameters[i].isIn()) {
-                statement.setString(i + 1, parameters[i].getStr());
+                statement.setObject(i + 1, parameters[i].getValue());
             } else {
                 statement.registerOutParameter(i + 1, parameters[i].getTypes());
             }

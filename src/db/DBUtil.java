@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import static system.constant.Constant.CONNECTION_ERROR;
 import static system.constant.Constant.CONNECTION_SUCCESS;
+import static system.constant.Main.*;
 
 /**
  * @author TZ
@@ -40,16 +41,16 @@ public class DBUtil {
 //            pro.put("user", "sjjc_gzh");
 //            pro.put("password", "sjjc_gzh");
 //            connection = driver.connect("jdbc:oracle:thin:@10.199.138.34:1521:sjck", pro);
-            pro.put("user", "sjjc_bz");
-            pro.put("password", "sjjc_bz");
-            connection = driver.connect("jdbc:oracle:thin:@192.168.126.139:1521:orcl", pro);
+            pro.put("user", USER);
+            pro.put("password", PASSWORD);
+            connection = driver.connect(URL, pro);
             if (connection == null) {
                 return CONNECTION_ERROR;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("数据库连接成功\tjdbc:oracle:thin:@192.168.126.139:1521:orcl\tsjjc_bz");
+        System.out.println("数据库连接成功\t" + URL + "\t" + USER);
         connection.setAutoCommit(false);
         return CONNECTION_SUCCESS;
     }

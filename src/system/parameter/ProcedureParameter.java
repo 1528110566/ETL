@@ -22,7 +22,7 @@ public class ProcedureParameter {
     /**
      * 输入参数的内容，in为true时必输
      */
-    private String str;
+    private Object value;
 
     public ProcedureParameter(boolean in, SQLType types) throws ParameterUseErrorException {
         this.in = in;
@@ -32,12 +32,12 @@ public class ProcedureParameter {
         this.types = types;
     }
 
-    public ProcedureParameter(boolean in, String str) throws ParameterUseErrorException {
+    public ProcedureParameter(boolean in, Object value) throws ParameterUseErrorException {
         this.in = in;
         if (!in) {
             throw new ParameterUseErrorException("当参数为类型为out时，应该调用ProcedureParameter(boolean, Types)这个构造方法");
         }
-        this.str = str;
+        this.value = value;
     }
 
     public boolean isIn() {
@@ -51,10 +51,10 @@ public class ProcedureParameter {
         return types;
     }
 
-    public String getStr() throws UnSupportedFunctionException {
+    public Object getValue() throws UnSupportedFunctionException {
         if (!in) {
             throw new UnSupportedFunctionException("参数为out类型，不支持获取其内容");
         }
-        return str;
+        return value;
     }
 }
