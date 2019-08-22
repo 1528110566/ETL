@@ -63,6 +63,7 @@ public class Tools {
 
     public static int getSequenceNextValue(String sequenceName) throws SQLException {
         String sql = "SELECT " + sequenceName + ".NEXTVAL FROM DUAL";
+        // TODO
         System.out.println(sql);
         ResultSet resultSet = dbOperate.select(sql);
         if (resultSet.next()) {

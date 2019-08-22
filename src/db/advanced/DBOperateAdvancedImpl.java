@@ -22,7 +22,7 @@ public class DBOperateAdvancedImpl extends DBOperateImpl implements DBOperateAdv
     static {
         try {
             dbUtil = DBUtil.getInstance();
-        } catch (ConnectException e) {
+        } catch (ConnectException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -143,34 +143,52 @@ public class DBOperateAdvancedImpl extends DBOperateImpl implements DBOperateAdv
     }
 
     @Override
-    public int insertFromSourceDate(String targetTableName, Object[] sourceDate, String[] targetColumns) throws StupidCallingException {
+    public int insertFromSourceTable(String sourceTableName, String targetTableName, String[] sourceColumns, String[] targetColumns) throws StupidCallingException {
+        return insertFromSourceTable(sourceTableName, targetTableName, sourceColumns, targetColumns, "");
+    }
+
+    @Override
+    public int insertFromSourceDate(String targetTableName, Object[] sourceData, String[] targetColumns) throws StupidCallingException, SQLException {
         // 异常处理
         if (targetTableName == null | "".equals(targetTableName)) {
             throw new StupidCallingException("没有输入目标列");
         }
-        if (sourceDate == null || sourceDate.length == 0) {
+        if (sourceData == null || sourceData.length == 0) {
             throw new StupidCallingException("没有输入源数据");
         }
         if (targetColumns == null || targetColumns.length == 0) {
             throw new StupidCallingException("没有输入目标列");
         }
-        if (sourceDate.length != targetColumns.length) {
+        if (sourceData.length != targetColumns.length) {
             throw new StupidCallingException("数据长度不匹配");
         }
+        CallableStatement statement = join(targetTableName, sourceData, targetColumns);
+        return statement.executeUpdate();
+    }
 
+    private CallableStatement join(String targetTableName, Object[] sourceData, String[] targetColumns) throws SQLException {
+        // TODO
+        System.out.println("拼接SQL");
         // 拼接SQL
         StringBuilder builder = new StringBuilder();
         builder.append("insert into ").append(targetTableName).append(" (").append(targetColumns[0]);
         for (int i = 1; i < targetColumns.length; i++) {
             builder.append(",").append(targetColumns[i]);
         }
-        builder.append(") values (").append(sourceDate[0]);
-        for (int i = 1; i < sourceDate.length; i++) {
-            builder.append(",").append(sourceDate[i]);
+        builder.append(") values (?");
+        for (int i = 1; i < sourceData.length; i++) {
+            builder.append(",?");
         }
         builder.append(")");
-        // 调试用
-        System.out.println(builder.toString());
-        return dbUtil.sendSQL(builder.toString());
+        // TODO
+        System.out.println("SQL拼接完成:" + builder.toString());
+
+        CallableStatement statement = dbUtil.getConnection().prepareCall(builder.toString());
+        for (int i = 0; i < sourceData.length; i++) {
+            // TODO
+            System.out.println((i + 1) + "\t" + sourceData[i]);
+            statement.setObject(i + 1, sourceData[i]);
+        }
+        return statement;
     }
 }

@@ -47,14 +47,16 @@ public interface DBOperateAdvanced extends DBOperate {
      */
     int insertFromSourceTable(String sourceTableName, String targetTableName, String[] sourceColumns, String[] targetColumns, String whereCondition) throws StupidCallingException;
 
+    int insertFromSourceTable(String sourceTableName, String targetTableName, String[] sourceColumns, String[] targetColumns) throws StupidCallingException;
+
     /**
      * 将已有数据插入到目标表，拼接sql
      * 调用时应当保证两个数组的内容是一一对应的
      *
      * @param targetTableName 目标表表名
-     * @param sourceDate      已有数据
+     * @param sourceData      已有数据
      * @param targetColumns   目标表列名
      * @return 返回受影响的行数
      */
-    int insertFromSourceDate(String targetTableName, Object[] sourceDate, String[] targetColumns) throws StupidCallingException;
+    int insertFromSourceDate(String targetTableName, Object[] sourceData, String[] targetColumns) throws StupidCallingException, SQLException;
 }
