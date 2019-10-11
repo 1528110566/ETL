@@ -51,10 +51,11 @@ public class DBOperateAdvancedImpl extends DBOperateImpl implements DBOperateAdv
         CallableStatement statement = dbUtil.getConnection().prepareCall(builder.toString());
         // 设置存储过程参数
         for (int i = 0; i < parameters.length; i++) {
-            // TODO
-            System.out.println((i + 1) + "\t" + parameters[i].getValue());
+
             // 如果是in类型的参数
             if (parameters[i].isIn()) {
+                // TODO
+                System.out.println((i + 1) + "\t" + parameters[i].getValue());
                 statement.setObject(i + 1, parameters[i].getValue());
             } else {
                 statement.registerOutParameter(i + 1, parameters[i].getTypes());
@@ -71,7 +72,7 @@ public class DBOperateAdvancedImpl extends DBOperateImpl implements DBOperateAdv
         }
         // 拼接调用字符串
         StringBuilder builder = new StringBuilder();
-        builder.append("{? = call ");
+        builder.append("{ ? = call ");
         if (!"".equals(funcPackageName) && funcPackageName != null) {
             builder.append(funcPackageName).append(".");
         }
@@ -84,17 +85,24 @@ public class DBOperateAdvancedImpl extends DBOperateImpl implements DBOperateAdv
             }
         }
         builder.append(") }");
+        // TODO
         // 调试用
         System.out.println(builder.toString());
         // 调用函数
         CallableStatement statement = dbUtil.getConnection().prepareCall(builder.toString());
         // 设置函数参数
         statement.registerOutParameter(1, parameters[0].getTypes());
+        // TODO
+        System.out.println("1\t" + parameters[0].getTypes());
         for (int i = 1; i < parameters.length; i++) {
             // 如果是in类型的参数
             if (parameters[i].isIn()) {
+                // TODO
+                System.out.println((i + 1) + "\t" + parameters[i].getStr());
                 statement.setString(i + 1, parameters[i].getStr());
             } else {
+                // TODO
+                System.out.println((i + 1) + "\t" + parameters[i].getTypes());
                 statement.registerOutParameter(i + 1, parameters[i].getTypes());
             }
         }

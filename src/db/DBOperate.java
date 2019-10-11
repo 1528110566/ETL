@@ -42,4 +42,12 @@ public interface DBOperate {
      * 删除
      */
     int drop(String sql);
+
+
+    /**
+     * 适配Oracle的execute immediate
+     *
+     * @param sql 待执行的SQL语句
+     */
+    void execute(String sql) throws SQLException;
 }

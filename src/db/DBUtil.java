@@ -26,6 +26,8 @@ public class DBUtil {
                 throw new ConnectException(CONNECTION_ERROR.getMessage());
             }
         }
+        // 设置当前连接的schema
+        setSchema(DEFAULT_SCHEMA);
         return dbUtil;
     }
 
@@ -34,6 +36,7 @@ public class DBUtil {
     }
 
     private static Constant connect() throws SQLException {
+        long time = System.nanoTime();
         try {
             Driver driver = new OracleDriver();
             DriverManager.deregisterDriver(driver);
@@ -50,7 +53,8 @@ public class DBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("数据库连接成功\t" + URL + "\t" + USER);
+        System.out.println("数据库连接成功\t" + URL + "\t" + USER + "\n耗时：" + (System.nanoTime() - time) / Math.pow(10, 9) + "s\n");
+        // 自动提交开启后，不能使用再下方commit方法
         connection.setAutoCommit(false);
         return CONNECTION_SUCCESS;
     }
@@ -72,6 +76,8 @@ public class DBUtil {
 
     public ResultSet getResult(String sql) {
         try {
+            // TODO
+            System.out.println(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
             return statement.executeQuery();
         } catch (SQLException e) {
@@ -86,5 +92,16 @@ public class DBUtil {
 
     void commit() throws SQLException {
         connection.commit();
+    }
+
+    /**
+     * 设置当前会话的schema
+     */
+    static void setSchema(String schema) throws SQLException {
+        connection.createStatement().execute("alter session set current_schema = " + schema);
+    }
+
+    void execute(String sql) throws SQLException {
+        connection.createStatement().execute(sql);
     }
 }

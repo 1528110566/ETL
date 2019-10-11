@@ -61,15 +61,15 @@ public class Tools {
         return true;
     }
 
-    public static int getSequenceNextValue(String sequenceName) throws SQLException {
+    public static String getSequenceNextValue(String sequenceName) throws SQLException {
         String sql = "SELECT " + sequenceName + ".NEXTVAL FROM DUAL";
         // TODO
         System.out.println(sql);
         ResultSet resultSet = dbOperate.select(sql);
         if (resultSet.next()) {
-            return resultSet.getInt(1);
+            return resultSet.getString(1);
         } else {
-            return 0;
+            return null;
         }
     }
 }

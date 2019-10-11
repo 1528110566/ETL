@@ -9,6 +9,7 @@ public class DBOperateImpl implements DBOperate {
     static {
         try {
             dbUtil = DBUtil.getInstance();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,5 +48,10 @@ public class DBOperateImpl implements DBOperate {
     @Override
     public int drop(String sql) {
         return 0;
+    }
+
+    @Override
+    public void execute(String sql) throws SQLException {
+        dbUtil.execute(sql);
     }
 }

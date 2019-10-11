@@ -1,4 +1,4 @@
-package log;
+package etl.log;
 
 
 import db.advanced.DBOperateAdvanced;
@@ -152,10 +152,10 @@ public class Log {
 //                    V_CALLER_OWNER,
 //                    V_CALLER_NAME,
 //                    V_CALLER_LINE};
-//            dbOperate.insertFromSourceDate("SJJC_BZ.T_CTL_LOG_STEP", sourceData, targetColumns);
+//            dbOperate.insertFromSourceDate("T_CTL_LOG_STEP", sourceData, targetColumns);
 //            dbOperate.commit();
 //        } else {
-//            ResultSet resultSet = dbOperate.select("SELECT COUNT(*) + 1 FROM SJJC_BZ.T_CTL_LOG_SCRIPT A WHERE A.JOB_NAME = '" + I_JOB_NAME + "' AND A.BATCH_ID = '" + I_BATCH_ID + "'");
+//            ResultSet resultSet = dbOperate.select("SELECT COUNT(*) + 1 FROM T_CTL_LOG_SCRIPT A WHERE A.JOB_NAME = '" + I_JOB_NAME + "' AND A.BATCH_ID = '" + I_BATCH_ID + "'");
 //            resultSet.next();
 //            V_STEP_NUM = resultSet.getInt(1);
 //            Object[] sourceDate = {V_BATCH_ID, V_STEP_NUM, I_JOB_NAME, I_JOB_STEP, I_RUN_STRING, I_SCRIPT_FLAG, sysdate(), "ADMIN"};
@@ -168,7 +168,7 @@ public class Log {
 //                    "SCRIPT_FLAG",
 //                    "CREATE_TIME",
 //                    "CREATE_USER"};
-//            dbOperate.insertFromSourceDate("SJJC_BZ.T_CTL_LOG_SCRIPT", sourceDate, targetColumns);
+//            dbOperate.insertFromSourceDate("T_CTL_LOG_SCRIPT", sourceDate, targetColumns);
 //            dbOperate.commit();
 //        }
         dbOperate.callProcedure("PKG_CTL_LOG", "P_CTL_LOG_SETP",
@@ -182,6 +182,13 @@ public class Log {
                 new ProcedureParameter(true, I_SUCC_STATUS),
                 new ProcedureParameter(true, I_EXEC_MODE),
                 new ProcedureParameter(true, I_SCRIPT_FLAG));
+    }
+
+    public static void log_step(String I_JOB_NAME, String I_BATCH_ID, String I_JOB_STEP,
+                                String I_RUN_STRING, String I_RUN_CODE, String I_RUN_ERRM,
+                                String I_EXEC_NUM, String I_SUCC_STATUS) throws UnSupportedFunctionException, SQLException, ParameterUseErrorException {
+        log_step(I_JOB_NAME, I_BATCH_ID, I_JOB_STEP, I_RUN_STRING, I_RUN_CODE,
+                I_RUN_ERRM, I_EXEC_NUM, I_SUCC_STATUS, 1, 0);
     }
 
     /**

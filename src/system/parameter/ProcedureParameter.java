@@ -26,7 +26,7 @@ public class ProcedureParameter {
 
     public ProcedureParameter(boolean in, SQLType types) throws ParameterUseErrorException {
         this.in = in;
-        if (in) {
+        if (in && types != null) {
             throw new ParameterUseErrorException("当参数为类型为in时，应该调用ProcedureParameter(boolean, String)这个构造方法");
         }
         this.types = types;

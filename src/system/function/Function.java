@@ -187,4 +187,26 @@ public class Function {
         }
         return concat(str1, str2);
     }
+
+    public static String to_char(Date date) {
+        return to_char(date, "yyyy-MM-dd HH:mm:ss");
+    }
+
+
+    public static String to_char(Date date, String reg) {
+        // 小时
+        if (reg.contains("hh24")) {
+            reg = reg.replaceAll("hh24", "HH");
+        }
+        // 月
+        if (reg.contains("mm")) {
+            reg = reg.replaceAll("mm", "MM");
+        }
+        // 分
+        if (reg.contains("mi")) {
+            reg = reg.replaceAll("mi", "mm");
+        }
+        SimpleDateFormat format = new SimpleDateFormat(reg);
+        return format.format(date);
+    }
 }
